@@ -7,6 +7,10 @@
   --foreground: #171717;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -14,10 +18,43 @@
   }
 }
 
+@media (prefers-reduced-motion: no-preference) {
+  :has(:target) {
+    scroll-behavior: smooth;
+    scroll-padding-top: 2rem;
+  }
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer components {
+  main {
+    @apply min-h-svh;
+  }
+  main:has(> section:not(.ignore)) {
+    /* @apply mx-auto w-11/12 max-w-7xl py-20 sm:pt-28; */
+  }
+  h2 {
+    @apply mb-6 text-xl;
+  }
+  h3 {
+    @apply mb-4 text-lg;
+  }
+  p {
+    @apply mb-4;
+  }
+  img {
+    @apply block;
+  }
+  button {
+    @apply align-middle;
+  }
+  textarea {
+    @apply disabled:bg-zinc-200;
+  }
 }
 
 @layer utilities {
