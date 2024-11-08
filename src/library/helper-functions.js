@@ -1,3 +1,5 @@
+import { SEPARATOR } from './constants'
+
 export function formatNumberToPersian(number) {
   return Intl.NumberFormat('fa').format(number)
 }
@@ -23,4 +25,8 @@ export function backToTop() {
 
 export function clamp(number, min, max) {
   return Math.min(max, Math.max(number, min))
+}
+
+export function formatPath(path = '') {
+  return path.replaceAll(SEPARATOR, '/') ?? ''
 }
