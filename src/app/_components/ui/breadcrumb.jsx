@@ -1,11 +1,13 @@
 import Link from 'next/link'
-import { SEPARATOR } from 'library/constants'
+import { HOME_DIRECTORY, SEPARATOR } from 'library/constants'
 
 import IconWrapper from './icon-wrapper'
 import { Home, ArrowUp } from 'lucide-react'
 
 export default function Breadcrumb({ path = [] }) {
   const clonedPath = [...path]
+  let trackPath = ''
+
   const isMultiDir = clonedPath.length > 1
 
   const removedLastItemFromPath = clonedPath.slice(1, -1).join(SEPARATOR)
@@ -26,12 +28,23 @@ export default function Breadcrumb({ path = [] }) {
         </IconWrapper>
       )}
 
-      {clonedPath.map(directory => (
-        <div key={directory} className="flex gap-1">
-          <Link href="#">{directory}</Link>
-          <div>/</div>
-        </div>
-      ))}
+      {clonedPath.map(directory => {
+        const isRoot = directory === HOME_DIRECTORY
+        if (!isRoot) {
+          if (!trackPath) {
+            trackPath = directory
+          } else {
+            trackPath += SEPARATOR + directory
+          }
+        }
+
+        return (
+          <div key={directory} className="flex gap-1">
+            <Link href={{ query: { dir: trackPath } }}>{directory}</Link>
+            <div>/</div>
+          </div>
+        )
+      })}
     </div>
   )
 }
