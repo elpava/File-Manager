@@ -17,7 +17,7 @@ function reducer(state, action) {
   }
 }
 const initalState = {
-  operation: { type: null, sourcePath: null },
+  operation: { type: '', sourcePath: '' },
 }
 
 const { dispatch, getState, useStoreState } = createStore(reducer, initalState)

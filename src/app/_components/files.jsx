@@ -6,8 +6,6 @@ import { extensionRegex, isValidImageRegex } from 'library/regex'
 import FileInfo from '@/_components/ui/file-info'
 import DefaultThumb from '/public/default_thumbnail.jpg'
 
-export const dynamic = 'force-dynamic'
-
 export default function Files({ filenames }) {
   return (
     <div className="grid grid-cols-[repeat(auto-fit,10rem)]">

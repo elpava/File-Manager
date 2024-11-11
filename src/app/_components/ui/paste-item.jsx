@@ -30,7 +30,7 @@ export default function PasteItem() {
   }
 
   function cancelOperation() {
-    dispatch({ type: 'operation', payload: { type: null, sourcePath: null } })
+    dispatch({ type: 'operation', payload: { type: '', sourcePath: '' } })
   }
 
   function replaceHandler() {
