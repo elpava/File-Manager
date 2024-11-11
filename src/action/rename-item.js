@@ -5,6 +5,7 @@ import path from 'path'
 import { revalidatePath } from 'next/cache'
 
 import { ROOT, HOME_DIRECTORY } from 'library/constants'
+import { checkItemExistance } from 'library/server/helper'
 
 export default async function renameItemAction(oldPath, newPath) {
   const oldFullPath = path.join(process.cwd(), ROOT, HOME_DIRECTORY, oldPath)
@@ -15,10 +16,9 @@ export default async function renameItemAction(oldPath, newPath) {
     parsedNewFullPath.base,
   )
 
-  const itemExistance = await access(newFullPathWithItemName)
-    .then(() => true)
-    .catch(() => false)
-  if (itemExistance) return { exist: true }
+  const isItemExist = await checkItemExistance(newFullPathWithItemName)
+
+  if (isItemExist) return { exist: true }
 
   try {
     await rename(oldFullPath, newFullPath)

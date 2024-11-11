@@ -5,6 +5,7 @@ import path from 'path'
 import { revalidatePath } from 'next/cache'
 
 import { ROOT, HOME_DIRECTORY } from 'library/constants'
+import { checkItemExistance } from 'library/server/helper'
 
 export default async function moveItemAction(
   oldPath,
@@ -23,11 +24,9 @@ export default async function moveItemAction(
       parsedOldFullPath.base,
     )
 
-    const itemExistance = await access(newFullPathWithItemName)
-      .then(() => true)
-      .catch(() => false)
+    const isItemExist = await checkItemExistance(newFullPathWithItemName)
 
-    if (itemExistance) return { exist: true }
+    if (isItemExist) return { exist: true }
   }
 
   newFullPath = path.join(

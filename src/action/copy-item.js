@@ -1,10 +1,11 @@
 'use server'
 
-import { access, copyFile } from 'fs/promises'
+import { copyFile } from 'fs/promises'
 import path from 'path'
 import { revalidatePath } from 'next/cache'
 
 import { ROOT, HOME_DIRECTORY } from 'library/constants'
+import { checkItemExistance } from 'library/server/helper'
 
 export default async function copyItemAction(
   source,
@@ -22,11 +23,9 @@ export default async function copyItemAction(
       destFullPath,
       parsedSrcFullPath.base,
     )
-    const itemExistance = await access(destFullPathWithItemName)
-      .then(() => true)
-      .catch(() => false)
+    const isItemExist = await checkItemExistance(destFullPathWithItemName)
 
-    if (itemExistance) return { exist: true }
+    if (isItemExist) return { exist: true }
   }
 
   destFullPath = path.join(
