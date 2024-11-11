@@ -5,3 +5,4 @@ export const invalidFilenameRegex =
 export const ltrRegex = /^[A-Za-z0-9]/
 export const isValidImageRegex = /\.(png|jpg|jpeg|gif|bmp|webp|svg)$/i
 export const fileTypeRegex = /\/(.*)$/
+export const extractFilenameFromPathRegex = /[^/]+$/
