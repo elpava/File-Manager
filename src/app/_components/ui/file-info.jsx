@@ -16,6 +16,7 @@ import {
 import TextField from '@/_components/ui/text-field'
 import ContextMenu from '@/_components/ui/context-menu'
 import Modal from './modal'
+import Tag from './tag'
 
 export default function FileInfo({ path, filename }) {
   const currentFilename = filename.match(filenameRegex)[1]
@@ -164,11 +165,7 @@ export default function FileInfo({ path, filename }) {
 
             <div className="mb-10 pr-2">
               <p>
-                در مقصد یک فایل با نام{' '}
-                <span className="rounded-md bg-stone-300 px-2 py-1">
-                  {renamedFilename}
-                </span>{' '}
-                وجود دارد.
+                در مقصد یک فایل با نام <Tag>{renamedFilename}</Tag> وجود دارد.
               </p>
               <p>نام دیگری را انتخاب نمایید یا نام فایل مشابه را تغییر دهید.</p>
             </div>

@@ -4,6 +4,7 @@ import { writeFile } from 'fs/promises'
 import path from 'path'
 import { revalidatePath } from 'next/cache'
 
+import { delay } from 'library/utils'
 import { ROOT, HOME_DIRECTORY } from 'library/constants'
 
 export default async function uploadFileAction(state, formData) {
@@ -22,15 +23,14 @@ export default async function uploadFileAction(state, formData) {
     filename,
   )
 
-  await delay(1300)
+  await delay(560)
 
   try {
     await writeFile(fullPath, buffer)
     revalidatePath('/')
-    return { status: 'success' }
+    state.status = 'success'
+    return state
   } catch (err) {
     console.log(err)
   }
 }
-
-const delay = ms => new Promise(res => setTimeout(() => res(true), ms))

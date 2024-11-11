@@ -30,3 +30,17 @@ export function clamp(number, min, max) {
 export function formatPath(path = '') {
   return path.replaceAll(SEPARATOR, '/') ?? ''
 }
+
+export function returnFileSize(number) {
+  if (number < 1e3) {
+    return `${number} بایت`
+  } else if (number >= 1e3 && number < 1e6) {
+    return `${(number / 1e3).toFixed(1)} کیلوبایت`
+  } else {
+    return `${(number / 1e6).toFixed(1)} مگابایت`
+  }
+}
+
+export function delay(ms) {
+  return new Promise(res => setTimeout(() => res(true), ms))
+}

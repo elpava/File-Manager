@@ -1,6 +1,6 @@
 import { readdir, stat } from 'fs/promises'
 import path from 'path'
-import { formatPath } from 'library/helper-functions'
+import { formatPath } from 'library/utils'
 import { ROOT, HOME_DIRECTORY, SEPARATOR } from 'library/constants'
 
 import Upload from '@/_components/upload'
@@ -78,8 +78,8 @@ export default async function Home({ searchParams }) {
   }
 
   return (
-    <section className="flex h-svh flex-col gap-4">
-      <div className="p-2">
+    <section className="flex h-svh flex-col">
+      <div className="bg-stone-100 p-2">
         <Upload />
       </div>
 

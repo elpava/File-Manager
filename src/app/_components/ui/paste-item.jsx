@@ -6,9 +6,10 @@ import { useSearchParams } from 'next/navigation'
 import useStore from 'hook/useStore'
 import copyItemAction from 'action/copy-item'
 import moveItemAction from 'action/move-item'
-import { formatPath } from 'library/helper-functions'
+import { formatPath } from 'library/utils'
 
 import Modal from './modal'
+import Tag from './tag'
 import IconWrapper from './icon-wrapper'
 import { ClipboardList } from 'lucide-react'
 
@@ -80,11 +81,7 @@ export default function PasteItem() {
         <Modal onClose={toggleModalHandler}>
           <div>
             <h3 className="mb-10">
-              در مقصد یک فایل با نام{' '}
-              <span className="rounded-md bg-stone-300 px-2 py-1">
-                {sourcePath}
-              </span>{' '}
-              وجود دارد:
+              در مقصد یک فایل با نام <Tag>{sourcePath}</Tag> وجود دارد:
             </h3>
 
             <div

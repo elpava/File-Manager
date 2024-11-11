@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { useSearchParams } from 'next/navigation'
 import createDirectoryAction from 'action/create-dir'
-import { formatPath } from 'library/helper-functions'
+import { formatPath } from 'library/utils'
 
 import Modal from './modal'
 import TextField from './text-field'
