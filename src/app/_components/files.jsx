@@ -10,7 +10,7 @@ export default function Files({ filenames }) {
   return (
     <div className="grid grid-cols-[repeat(auto-fit,10rem)]">
       {filenames.map(({ path, name }) => (
-        <div key={name} className="p-1">
+        <div key={name} className="p-2">
           <div
             className={clsx(
               'grid gap-2 rounded-md border-[0.5px] border-stone-400 p-2 transition-[transform]',

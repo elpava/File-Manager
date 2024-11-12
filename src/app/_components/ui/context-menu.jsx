@@ -1,11 +1,15 @@
-'use client'
-
-import * as React from 'react'
+import clsx from 'clsx/lite'
 
 import IconWrapper from '@/_components/ui/icon-wrapper'
 import { Trash, FilePen, Scissors, Files } from 'lucide-react'
 
-export default function ContextMenu({ onCopy, onMove, onRename, onDelete }) {
+export default function ContextMenu({
+  className,
+  onCopy,
+  onMove,
+  onRename,
+  onDelete,
+}) {
   function copyHandler() {
     onCopy()
   }
@@ -23,7 +27,7 @@ export default function ContextMenu({ onCopy, onMove, onRename, onDelete }) {
   }
 
   return (
-    <div className="flex justify-center gap-2">
+    <div className={clsx('flex select-none justify-center gap-2', className)}>
       <IconWrapper onClick={copyHandler}>
         <Files size={16} />
       </IconWrapper>

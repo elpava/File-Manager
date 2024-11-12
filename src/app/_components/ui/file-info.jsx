@@ -17,16 +17,19 @@ import TextField from '@/_components/ui/text-field'
 import ContextMenu from '@/_components/ui/context-menu'
 import Modal from './modal'
 import Tag from './tag'
+import { Ellipsis } from 'lucide-react'
 
 export default function FileInfo({ path, filename }) {
   const currentFilename = filename.match(filenameRegex)[1]
   const { dispatch } = useStore()
   const formRef = React.useRef()
+  const menuRef = React.useRef()
   const inputRef = React.useRef()
   const inputTouchedRef = React.useRef()
   const [selectedFile, setSelectedFile] = React.useState(null)
   const [renamedFilename, setRenamedFilename] = React.useState('')
   const [renamedFilenameError, setRenamedFilenameError] = React.useState('')
+  const [showMenu, setShowMenu] = React.useState(null)
   const [showModal, setShowModal] = React.useState(null)
   const pathAndFilename = path + filename
 
@@ -46,16 +49,26 @@ export default function FileInfo({ path, filename }) {
           resetRenameState()
         }
       }
+
+      if (!menuRef.current?.contains(e.target)) {
+        if (showMenu) {
+          setShowMenu(false)
+        }
+      }
     }
 
     document.addEventListener('click', handleClick)
 
     return () => document.removeEventListener('click', handleClick)
-  }, [selectedFile])
+  }, [showMenu, selectedFile])
 
   function cancelAllOperation() {
     resetRenameState()
     cancelOperation()
+  }
+
+  function toggleMenuHandler() {
+    setShowMenu(prev => !prev)
   }
 
   function copyHandler() {
@@ -74,7 +87,7 @@ export default function FileInfo({ path, filename }) {
   }
 
   function cancelOperation() {
-    dispatch({ type: 'operation', payload: { type: null, sourcePath: null } })
+    dispatch({ type: 'operation', payload: { type: '', sourcePath: '' } })
   }
 
   function renameHandler() {
@@ -139,9 +152,14 @@ export default function FileInfo({ path, filename }) {
   }
 
   return (
-    <div className={clsx('[--height:2rem]', 'grid gap-2')}>
+    <div
+      className={clsx(
+        '[--height:2rem]',
+        'relative isolate grid border-inherit',
+      )}
+    >
       {selectedFile === filename ? (
-        <form ref={formRef}>
+        <form ref={formRef} className="z-[1]">
           <TextField
             ref={inputRef}
             inputClassName="min-h-[var(--height)] resize-none overflow-hidden text-sm transition-[height]"
@@ -157,17 +175,33 @@ export default function FileInfo({ path, filename }) {
           />
         </form>
       ) : (
-        <div className="truncate text-center leading-[var(--height)]">
+        <div className="z-[-1] truncate text-center leading-[var(--height)]">
           {currentFilename}
         </div>
       )}
 
-      <ContextMenu
-        onCopy={copyHandler}
-        onMove={moveHandler}
-        onRename={renameHandler}
-        onDelete={deleteHandler}
-      />
+      <div
+        ref={menuRef}
+        className={clsx(
+          'relative z-[0] -mb-4 cursor-pointer rounded-md border-[0.5px] transition-[background,border-color,shadow] hover:shadow-md hover:shadow-stone-200',
+          showMenu && 'border-slate-500 bg-slate-500 hover:bg-slate-400',
+          !showMenu &&
+            'border-inherit bg-stone-100 hover:border-slate-600 hover:bg-stone-200',
+        )}
+        onClick={toggleMenuHandler}
+      >
+        <Ellipsis size={16} className="mx-auto" />
+
+        {showMenu && (
+          <ContextMenu
+            className="absolute bottom-full left-1/2 -translate-x-1/2 rounded-tl-md rounded-tr-md border-[1.5px] border-b-[0px] border-inherit bg-slate-300 p-1"
+            onCopy={copyHandler}
+            onMove={moveHandler}
+            onRename={renameHandler}
+            onDelete={deleteHandler}
+          />
+        )}
+      </div>
 
       {showModal && (
         <Modal onClose={closeModalHandler}>
