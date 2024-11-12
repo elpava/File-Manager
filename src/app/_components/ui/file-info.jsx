@@ -26,20 +26,18 @@ export default function FileInfo({ path, filename }) {
   const inputTouchedRef = React.useRef()
   const [selectedFile, setSelectedFile] = React.useState(null)
   const [renamedFilename, setRenamedFilename] = React.useState('')
+  const [renamedFilenameError, setRenamedFilenameError] = React.useState('')
   const [showModal, setShowModal] = React.useState(null)
   const pathAndFilename = path + filename
 
   useEscapeKey(!showModal ? cancelAllOperation : () => {})
 
-  function cancelAllOperation() {
-    resetRenameState()
-    cancelOperation()
-  }
+  const extension = filename.match(extensionRegex)[1]
 
   const isLtr = ltrRegex.test(
     renamedFilename ? renamedFilename : currentFilename,
   )
-  const extension = filename.match(extensionRegex)[1]
+  const isInvalidFilenameError = renamedFilenameError === 'invalid'
 
   React.useEffect(() => {
     const handleClick = e => {
@@ -54,6 +52,11 @@ export default function FileInfo({ path, filename }) {
 
     return () => document.removeEventListener('click', handleClick)
   }, [selectedFile])
+
+  function cancelAllOperation() {
+    resetRenameState()
+    cancelOperation()
+  }
 
   function copyHandler() {
     operation('copy')
@@ -81,7 +84,14 @@ export default function FileInfo({ path, filename }) {
   function changeInputHandler(e) {
     const { value, style, scrollHeight } = e.target
 
-    if (invalidFilenameRegex.test(value)) return
+    if (invalidFilenameRegex.test(value)) {
+      setRenamedFilenameError('invalid')
+      return
+    }
+
+    if (isInvalidFilenameError) {
+      setRenamedFilenameError('')
+    }
 
     if (value) {
       style.height = scrollHeight + 'px'
@@ -141,6 +151,7 @@ export default function FileInfo({ path, filename }) {
             name="rename"
             rows={1}
             value={inputTouchedRef.current ? renamedFilename : currentFilename}
+            isError={isInvalidFilenameError}
             onChange={changeInputHandler}
             onKeyPress={keyPressInputHandler}
           />

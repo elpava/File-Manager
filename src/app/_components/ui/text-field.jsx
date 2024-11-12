@@ -15,6 +15,7 @@ export default React.forwardRef(function TextField(
     maxLength = DIR_MAX_LEN,
     minLength = 1,
     rows,
+    isError,
     disabled,
     onFocus,
     onBlur,
@@ -54,8 +55,12 @@ export default React.forwardRef(function TextField(
       <Element
         ref={internalRef}
         className={clsx(
-          'block h-full w-full rounded-md border border-indigo-300 px-2 py-1 caret-indigo-500 transition-[outline]',
-          'focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-indigo-500',
+          'block h-full w-full rounded-md border px-2 py-1 transition-[outline]',
+          'focus-within:outline focus-within:outline-2 focus-within:outline-offset-2',
+          isError &&
+            'border-red-300 caret-red-500 focus-within:outline-red-500',
+          !isError &&
+            'border-indigo-300 caret-indigo-500 focus-within:outline-indigo-500',
           inputClassName,
         )}
         style={style}
