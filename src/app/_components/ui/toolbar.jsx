@@ -1,8 +1,6 @@
 import CreateDirectory from './create-directory'
 import PasteItem from './paste-item'
 import Sort from './sort'
-import IconWrapper from './icon-wrapper'
-import { LayoutList } from 'lucide-react'
 
 export default function Toolbar() {
   return (
@@ -10,10 +8,6 @@ export default function Toolbar() {
       <CreateDirectory />
       <PasteItem />
       <Sort />
-
-      <IconWrapper>
-        <LayoutList />
-      </IconWrapper>
     </div>
   )
 }
